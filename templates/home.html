@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        header .nav-links {
+            display: inline-block;
+            float: center; 
+        }
+        header .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 15 15px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        header .nav-links a:hover {
+            background-color: #0056b3;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        form input[type="text"] {
+            width: 75%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form button {
+            width: 20%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #0056b3;
+        }
+        .tasks {
+            margin-top: 20px;
+        }
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .task.completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+        .task button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .task button:hover {
+            background-color: #218838;
+        }
+        .task button.delete {
+            background-color: #dc3545;
+        }
+        .task button.delete:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with Login and Signup buttons, and user greeting -->
+    <header>
+        <h1>To-do List</h1>
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}!</span>
+            {% else %}
+                <a href="{% url 'login'%}">Login</a>
+                <a href="{% url 'signup'%}">Sign Up</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Add New Task -->
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="text" name="task" placeholder="Enter a new task" required>
+            <button type="submit">Add Task</button>
+        </form>
+
+        <!-- All Tasks -->
+        <div class="tasks">
+            <h2>All Tasks</h2>
+            {% comment %} {% for task in all_tasks %} {% endcomment %}
+            <div class="">
+                <span> task name </span>
+                <div>
+                    {% comment %} {% if not task.completed %} {% endcomment %}
+                    <button onclick="window.location=''">Mark as Done</button>
+                    {% comment %} {% endif %} {% endcomment %}
+                    <button class="delete" onclick="window.location=''">Delete</button>
+                </div>
+            </div>
+            {% comment %} {% endfor %} {% endcomment %}
+        </div>
+
+        <!-- Completed Tasks -->
+        <div class="tasks">
+            <h2>Completed Tasks</h2>
+            {% comment %} {% for task in completed_tasks %} {% endcomment %}
+            <div class="task completed">
+                <span>task.name </span>
+                <button class="delete" onclick="window.location=''">Delete</button>
+            </div>
+            {% comment %} {% endfor %} {% endcomment %}
+        </div>
+    </div>
+</body>
+</html>
