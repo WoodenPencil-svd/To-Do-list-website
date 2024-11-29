@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+        header {
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        header .nav-links {
+            display: inline-block;
+            float: center;
+        }
+        header .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+            padding: 12px 18px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        header .nav-links a:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        form input[type="text"] {
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border 0.3s ease;
+        }
+        form input[type="text"]:focus {
+            border: 1px solid #007bff;
+            outline: none;
+        }
+        form button {
+            padding: 15px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        form button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .tasks {
+            margin-top: 20px;
+        }
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .task:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        .task-buttons {
+            display: center;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        .task button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .task button.mark-as-done {
+            background-color: #28a745;
+        }
+        .task button.mark-as-done:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        .task button.delete-task {
+            background-color: #dc3545;
+        }
+        .task button.delete-task:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>To-do List</h1>
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}!</span>
+                <a href="{% url 'logout'%}">Logout</a>
+            {% else %}
+                <a href="{% url 'login'%}">Login</a>
+                <a href="{% url 'signup'%}">Sign Up</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="container">
+        <form action="{% url 'add_task' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="task" placeholder="Enter a new task..." required>
+            <button type="submit">Add Task</button>
+        </form>
+
+        <div class="tasks">
+            <h2>Not Completed Tasks</h2>
+            {% for task in tasks_not_done %}
+            <div class="task">
+                <span>{{ task.title }}</span>
+                <div class="task-buttons">
+                    {% if task.status != 'completely' %}
+                        <form action="{% url 'mark_as_done' task.id %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="mark-as-done">Mark as Done</button>
+                        </form>
+                    {% endif %}
+                    <form action="{% url 'delete_task' task.id %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-task">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="tasks">
+            <h2>Completed Tasks</h2>
+            {% for task in task_completed %}
+            <div class="task">
+                <span>{{ task.title }}</span>
+                <div class="task-buttons">
+                <form action="{% url 'delete_task' task.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-task">Delete</button>
+                </form>
+            </div>
+        </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+</div>
+    
+</body>
+</html>

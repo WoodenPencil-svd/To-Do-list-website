@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #34495e;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 18px;
+            color: white;
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+
+        .button:active {
+            background-color: #1d6fa5;
+            transform: translateY(2px);
+        }
+
+        .button.sign-up {
+            background-color: #2ecc71;
+        }
+
+        .button.sign-up:hover {
+            background-color: #27ae60;
+        }
+
+        .button.sign-up:active {
+            background-color: #1f8e4b;
+        }
+
+        .button.login {
+            background-color: #e74c3c;
+        }
+
+        .button.login:hover {
+            background-color: #c0392b;
+        }
+
+        .button.login:active {
+            background-color: #9b2f1e;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to To-Do List App</h1>
+        <p>
+            Organize your tasks, boost productivity, and never miss a deadline again.  
+            Sign up today to start managing your to-do list efficiently!
+        </p>
+        <div class="button-group">
+            <a href="/login" class="button login">Login</a>
+            <a href="/signup" class="button sign-up">Sign Up</a>
+        </div>
+    </div>
+
+</body>
+</html>
