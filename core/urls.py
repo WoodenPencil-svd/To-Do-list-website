@@ -18,6 +18,24 @@ from django.contrib import admin
 from django.urls import path,include
 from source.views import *
 from source.API.routers import source_urlparttern
+from rest_framework import permissions
+from django.urls import re_path
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Course API",
+        default_version='v1',
+        description="UI for API",
+        contact=openapi.Contact(email="gin21010304@gmail.com"),
+        license=openapi.License(name="Thanh Nhan"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +47,11 @@ urlpatterns = [
      path('mark_as_done/<int:task_id>/', MarkAsDoneView.as_view(), name='mark_as_done'),
     path('delete_task/<int:task_id>/', DeleteTaskView.as_view(), name='delete_task'),
     path('add/',AddPostView.as_view(),name='add_task'),
-    path('API/', include(source_urlparttern))
+    path('API/', include(source_urlparttern)),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$',schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
 ]
 
 
